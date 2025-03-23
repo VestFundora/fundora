@@ -1,4 +1,5 @@
 import Header from './components/Header'
+import Hero from './components/Hero'
 import { BrowserRouter } from 'react-router-dom'
 function App(){
 
@@ -6,6 +7,7 @@ function App(){
     <>
     <BrowserRouter>
       <Header/>
+      <Hero/>
     </BrowserRouter>
     </>
   )
