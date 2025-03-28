@@ -40,7 +40,7 @@ function Features() {
         <div key={title} className="flex-shrink-0 w-[400px] bg-white p-8 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105 border-t-4 border-teal-950">
             <div className="flex justify-center mb-6">
                 <div className="w-16 h-16 bg-teal-950/10 rounded-full flex items-center justify-center">
-                    <Icon className="text-teal-950 text-3xl" />
+                    {Icon && <Icon className="text-teal-950 text-3xl" />}
                 </div>
             </div>
             <h3 className="text-xl font-semibold text-center mb-3">{title}</h3>

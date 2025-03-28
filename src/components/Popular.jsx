@@ -65,7 +65,7 @@ function Popular() {
                                 key={`${investor.id}-${index}`} 
                                 className="flex flex-col items-center flex-shrink-0 transition-all duration-300"
                             >
-                                <div className="relative w-36 h-36 mb-3">
+                                <div className="relative w-20 h-20 lg:w-36 lg:h-36 mb-3">
                                     <img 
                                         src={investor.image} 
                                         alt={investor.name}
