@@ -1,21 +1,6 @@
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
-import { useRef } from "react";
+
 function SuccessStories() {
-    const containerRef=useRef(null)
-    useGSAP(()=>{
-gsap.from(containerRef.current,{
-opacity:0,
-duration:2,
-y:-200,
-scrollTrigger:{
-    trigger:containerRef.current,
-    start:"top 20%",
-    end:"bottom 30%",
-   
-    }
-})})
+    
     const storiesData = [
         {
             founderName: "Sarah Chen",
@@ -48,7 +33,7 @@ scrollTrigger:{
 
     return (
         <div className="bg-gradient-to-br from-teal-800 to-teal-600 py-12">
-            <div className="container mx-auto px-6" ref={containerRef}>
+            <div className="container mx-auto px-6" >
                 {/* Header Section */}
                 <div className="text-center mb-20">
                     <h2 className="text-5xl font-bold text-white mb-6">Success Stories</h2>

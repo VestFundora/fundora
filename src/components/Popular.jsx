@@ -1,8 +1,25 @@
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
 
 function Popular() {
+    const popularRef = useRef(null);
     const investorsRef = useRef(null);
     const startupsRef = useRef(null);
+
+    useGSAP(() => {
+        gsap.from(popularRef.current, {
+            opacity: 0,
+            duration: 2,
+            y: -200,
+            scrollTrigger: {
+                trigger: popularRef.current,
+                start: "top 20%",
+                end: "bottom 30%",
+            }
+        });
+    });
 
     // Sample investor data - fetch this from an API in a real app
     const investors = [
@@ -55,7 +72,7 @@ function Popular() {
     ];
 
     return (
-        <div className="py-16 bg-gray-50">
+        <div ref={popularRef} className="py-16 bg-gray-50">
             <div className="container mx-auto px-4">
                 {/* Investors Section */}
                 <div className="mb-20">
