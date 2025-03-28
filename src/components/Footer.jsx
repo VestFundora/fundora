@@ -6,7 +6,7 @@ function Footer() {
     const currentYear = new Date().getFullYear()
     
     return (
-        <footer className="bg-[#0b3530] text-white pt-16 pb-8">
+        <footer className="bg-teal-950 text-white pt-16 pb-8">
             <div className="container mx-auto px-4">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -18,16 +18,16 @@ function Footer() {
                             Our platform makes fundraising and investment streamlined and transparent.
                         </p>
                         <div className="flex space-x-4 mt-6">
-                            <a href="#" className="text-white hover:text-[#219184] transition-colors">
+                            <a href="#" className="text-white hover:text-teal-900 transition-colors">
                                 <FaTwitter size={20} />
                             </a>
-                            <a href="#" className="text-white hover:text-[#219184] transition-colors">
+                            <a href="#" className="text-white hover:text-teal-900 transition-colors">
                                 <FaLinkedin size={20} />
                             </a>
-                            <a href="#" className="text-white hover:text-[#219184] transition-colors">
+                            <a href="#" className="text-white hover:text-teal-900 transition-colors">
                                 <FaFacebook size={20} />
                             </a>
-                            <a href="#" className="text-white hover:text-[#219184] transition-colors">
+                            <a href="#" className="text-white hover:text-teal-900 transition-colors">
                                 <FaInstagram size={20} />
                             </a>
                         </div>
@@ -102,18 +102,18 @@ function Footer() {
                         <h3 className="text-xl font-semibold mb-6">Contact Us</h3>
                         <ul className="space-y-4">
                             <li className="flex items-start">
-                                <MdLocationOn className="text-[#219184] mr-3 mt-1" size={20} />
+                                <MdLocationOn className="text-teal-900 mr-3 mt-1" size={20} />
                                 <span className="text-gray-300">
                                    Manipal University,<br />
                                     Jaipur, Rajasthan, India
                                 </span>
                             </li>
                             <li className="flex items-center">
-                                <MdPhone className="text-[#219184] mr-3" size={20} />
+                                <MdPhone className="text-teal-900 mr-3" size={20} />
                                 <span className="text-gray-300">+9555 1234567</span>
                             </li>
                             <li className="flex items-center">
-                                <MdEmail className="text-[#219184] mr-3" size={20} />
+                                <MdEmail className="text-teal-900 mr-3" size={20} />
                                 <span className="text-gray-300">info@fundora.com</span>
                             </li>
                         </ul>

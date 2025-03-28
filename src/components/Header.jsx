@@ -1,93 +1,151 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 function Header() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const toggleMenu = () => setMenuOpen(!menuOpen);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const headerRef = useRef(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        // GSAP scroll animation
+        const headerAnimation = gsap.to(headerRef.current, {
+            duration: 0.5,
+            padding: '1rem',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)',
+            ease: 'power2.inOut',
+            paused: true
+        });
+
+        // ScrollTrigger for header
+        ScrollTrigger.create({
+            start: 'top+=20 top',
+            onUpdate: (self) => {
+                if (self.progress > 0) {
+                    headerAnimation.play();
+                } else {
+                    headerAnimation.reverse();
+                }
+            }
+        });
+
+        return () => {
+            headerAnimation.kill();
+        };
+    }, []);
 
     return (
-        /* Logo */
-        <header className='sticky top-0 z-50 flex items-center justify-between bg-[#219184] p-4 shadow-md transition-all duration-300' >
-            <div className='flex items-center'>
-                <h1 className='text-2xl font-bold text-white cursor-pointer transition-all duration-300 lg:pl-30 hover:scale-105'>
-                    Fundora
-                </h1>
-            </div>
+        <header ref={headerRef} className="fixed w-full top-0 left-0 z-50 transition-all duration-500 px-4 py-6">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+                {/* Logo */}
+                <Link 
+                    to="/" 
+                    className="text-2xl font-bold text-white transition-all duration-300 hover:scale-105"
+                >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
+                        Fundora
+                    </span>
+                </Link>
 
-            {/* Desktop Navigation*/}
-            <div>
-                <ul className='hidden lg:flex gap-12 text-white text-lg'> 
-                    <li>
-                        <Link to="/" className='transition-all duration-300  hover:bg-gray-700 p-3 rounded-md  hover:scale-105 inline-block'>
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/services" className='transition-all duration-300  hover:bg-gray-700 p-3 rounded-md  hover:scale-105 inline-block'>
-                            Services
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/contact" className='transition-all duration-300  hover:bg-gray-700 p-3 rounded-md  hover:scale-105 inline-block'>
-                            Contact Us
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/updates" className='transition-all duration-300 hover:bg-gray-700 p-3 rounded-md hover:scale-105 inline-block'>
-                            Updates
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+                {/* Navigation Pills - Hidden on mobile */}
+                <nav className="hidden md:flex p-4 items-center justify-center bg-white/10 backdrop-blur-lg rounded-full border border-white/20 shadow-lg transition-all duration-300 hover:bg-white/15 mx-4">
+                    <ul className="flex items-center gap-2">
+                        {[
+                            { path: "/", label: "Home" },
+                            { path: "/services", label: "Services" },
+                            { path: "/contact", label: "Contact" },
+                            { path: "/updates", label: "Updates" }
+                        ].map((item) => (
+                            <li key={item.path}>
+                                <Link
+                                    to={item.path}
+                                    className={`relative px-4 py-2 text-sm font-medium text-white/90 rounded-full transition-all duration-300
+                                        ${location.pathname === item.path 
+                                            ? 'bg-white/20 text-white' 
+                                            : 'hover:bg-white/10 hover:text-white'
+                                        }
+                                        hover:scale-105 active:scale-95`}
+                                >
+                                    {item.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
 
-            {/* Mobile Menu Button */}
-            <div className='lg:hidden'>
-                <button onClick={toggleMenu} className='focus:outline-none transition-all duration-300 cursor-pointer text-white relative w-6 h-4'>
-                    <span className={`absolute h-1 w-8 bg-white rounded-lg transform transition-all duration-500 ${menuOpen ? 'rotate-45 translate-y-0' : '-translate-y-3'}`}></span>
-                    
-                    <span className={`absolute h-1 w-8 bg-white rounded-lg transform transition-all duration-500 ${menuOpen ? 'opacity-0 translate-x-4' : 'opacity-100'}`}></span>
-                    
-                    <span className={`absolute h-1 w-8 bg-white rounded-lg transform transition-all duration-500 ${menuOpen ? '-rotate-45 translate-y-0' : 'translate-y-3'}`}></span>
+                {/* Mobile Menu Button */}
+                <button 
+                    className="md:hidden text-white p-2 rounded-lg hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    <div className="w-6 h-5 relative flex flex-col justify-between">
+                        <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${
+                            isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                        }`}></span>
+                        <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${
+                            isMenuOpen ? 'opacity-0' : ''
+                        }`}></span>
+                        <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${
+                            isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                        }`}></span>
+                    </div>
                 </button>
+
+                {/* Auth Buttons */}
+                <div className="hidden md:flex items-center gap-3">
+                    <button className="px-5 py-2 text-sm font-medium text-white bg-transparent rounded-full transition-all duration-300 hover:bg-white/10 hover:scale-105 active:scale-95">
+                        Login
+                    </button>
+                    <button className="px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:-translate-y-0.5 hover:scale-105 active:scale-95">
+                        Sign Up
+                    </button>
+                </div>
             </div>
-            {/* Mobile Menu DropDown */}
-            {menuOpen && (
-                <div className='lg:hidden absolute top-16 left-0 right-0 bg-[#219184] shadow-md z-50'>
-                    <ul className='flex flex-col p-4 text-center text-white text-lg'>
-                        <li className='py-2 border-b border-white/10'>
-                            <Link to="/" className='block w-full py-2 hover:bg-white/10 rounded transition-all duration-300'>
-                                Home
-                            </Link>
-                        </li>
-                        <li className='py-2 border-b border-white/10'>
-                            <Link to="/services" className='block w-full py-2 hover:bg-white/10 rounded transition-all duration-300'>
-                                Services
-                            </Link>
-                        </li>
-                        <li className='py-2 border-b border-white/10'>
-                            <Link to="/contact" className='block w-full py-2 hover:bg-white/10 rounded transition-all duration-300'>
-                                Contact Us
-                            </Link>
-                        </li>
-                        <li className='py-2'>
-                            <Link to="/updates" className='block w-full py-2 hover:bg-white/10 rounded transition-all duration-300'>
-                                Updates
-                            </Link>
+
+            {/* Mobile Menu */}
+            <div className={`md:hidden fixed inset-x-0 top-[72px] bg-black/90 backdrop-blur-lg transition-all duration-300 ${
+                isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'
+            }`}>
+                <nav className="container mx-auto px-4 py-6">
+                    <ul className="space-y-4">
+                        {[
+                            { path: "/", label: "Home" },
+                            { path: "/services", label: "Services" },
+                            { path: "/contact", label: "Contact" },
+                            { path: "/updates", label: "Updates" }
+                        ].map((item) => (
+                            <li key={item.path}>
+                                <Link
+                                    to={item.path}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={`block px-4 py-2 text-white/90 rounded-lg transition-all duration-300 ${
+                                        location.pathname === item.path 
+                                            ? 'bg-white/20 text-white' 
+                                            : 'hover:bg-white/10'
+                                    }`}
+                                >
+                                    {item.label}
+                                </Link>
+                            </li>
+                        ))}
+                        <li className="pt-4 flex flex-col gap-2">
+                            <button className="w-full px-5 py-2 text-sm font-medium text-white bg-transparent border border-white/20 rounded-lg transition-all duration-300 hover:bg-white/10">
+                                Login
+                            </button>
+                            <button className="w-full px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-lg transition-all duration-300 hover:opacity-90">
+                                Sign Up
+                            </button>
                         </li>
                     </ul>
-                </div>
-            )}
-
-            {/* Login/Sign Up*/}
-            <div className='flex lg:pr-30 gap-4'>
-                <button className='px-4 py-2 text-sm font-medium text-[#219184] bg-white rounded-md transition-all duration-300 hover:bg-opacity-90 cursor-pointer hover:shadow-lg hover:scale-105'>
-                    Login
-                </button>
-                <button className='px-4 py-2 text-sm font-medium text-white bg-transparent border border-white rounded-md transition-all duration-300 cursor-pointer hover:bg-white hover:text-[#219184] hover:shadow-lg'>
-                    Sign Up
-                </button>
+                </nav>
             </div>
         </header>
-    )
+    );
 }
 
 export default Header
