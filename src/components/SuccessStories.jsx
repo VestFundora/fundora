@@ -65,14 +65,7 @@ scrollTrigger:{
                             key={index}
                             className="group bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col"
                         >
-                            <div className="h-48 overflow-hidden relative">
-                                <img 
-                                    src={story.image} 
-                                    alt={story.company} 
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                            </div>
+                           
                             <div className="p-6 ">
                                 <div className="flex items-start gap-4 mb-6">
                                     <img 
