@@ -1,6 +1,34 @@
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+import { useRef } from "react";
+
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 function SuccessStories() {
-    
+    const storiesRef = useRef(null);
+
+    useGSAP(() => {
+        gsap.fromTo(storiesRef.current, 
+            {
+                background: "white",
+            }, 
+            {
+                background: "#115e59",
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: storiesRef.current,
+                    start: "top center",
+                    end: "+=300",
+                    toggleActions: "play none none reverse",
+                    scrub: 1,
+                }
+            }
+        );
+    }, []);
+
     const storiesData = [
         {
             founderName: "Sarah Chen",
@@ -32,7 +60,7 @@ function SuccessStories() {
     ];
 
     return (
-        <div className="bg-gradient-to-br from-teal-800 to-teal-600 py-12">
+        <div className="bg-white py-12" ref={storiesRef}>
             <div className="container mx-auto px-6" >
                 {/* Header Section */}
                 <div className="text-center mb-20">
