@@ -8,7 +8,7 @@ function Hero() {
                 </div>
 
                 {/* Hero Content */}
-                <div className="relative z-10 flex flex-col items-center justify-center min-h-[600px] mt-4 md:h-full pt-32 pb-16 md:pt-8 md:pb-8 text-white px-4 text-center">
+                <div className="relative z-10 flex flex-col items-center justify-start md:justify-center min-h-[600px] mt-4 md:h-full pt-16 md:pt-32 pb-16 md:pb-16 text-white px-4 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight max-w-3xl">
                         Empower Your Financial Future with Fundora
                     </h1>
@@ -25,7 +25,7 @@ function Hero() {
                     </div>
 
                     {/* Stats Section - Static Values */}
-                    <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                    <div className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-4xl">
                         <div className="bg-white/20 backdrop-blur-sm p-6 rounded-lg">
                             <h3 className="text-3xl font-bold">10k+</h3>
                             <p className="text-gray-200">Happy Customers</p>
