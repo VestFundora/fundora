@@ -24,21 +24,7 @@ function Hero() {
                         </button>
                     </div>
 
-                    {/* Stats Section - Static Values */}
-                    <div className="mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-4xl">
-                        <div className="bg-white/20 backdrop-blur-sm p-6 rounded-lg">
-                            <h3 className="text-3xl font-bold">10k+</h3>
-                            <p className="text-gray-200">Happy Customers</p>
-                        </div>
-                        <div className="bg-white/20 backdrop-blur-sm p-6 rounded-lg">
-                            <h3 className="text-3xl font-bold">$50M+</h3>
-                            <p className="text-gray-200">Assets Managed</p>
-                        </div>
-                        <div className="bg-white/20 backdrop-blur-sm p-6 rounded-lg">
-                            <h3 className="text-3xl font-bold">99%</h3>
-                            <p className="text-gray-200">Customer Satisfaction</p>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
         </>

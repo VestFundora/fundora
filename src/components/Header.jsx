@@ -16,7 +16,7 @@ function Header() {
         const headerAnimation = gsap.to(headerRef.current, {
             duration: 0.5,
             padding: '1rem',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: 'rgba(0, 84, 89, 0.8)',
             backdropFilter: 'blur(10px)',
             ease: 'power2.inOut',
             paused: true
