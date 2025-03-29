@@ -97,10 +97,7 @@ function SuccessStories() {
                                 <p className="text-white/80 leading-relaxed mb-6">
                                     {story.description}
                                 </p>
-                                <button className="mt-auto text-teal-200 hover:text-teal-400 text-sm font-semibold flex items-center gap-2 transition-colors">
-                                    Read Full Story 
-                                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                                </button>
+                                
                             </div>
                         </div>
                     ))}

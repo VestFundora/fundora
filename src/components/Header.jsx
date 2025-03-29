@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
+import logo from '../assets/Logo.png'
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +48,7 @@ function Header() {
                     className="text-2xl font-bold text-white transition-all duration-300 hover:scale-105"
                 >
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-white font-raleway to-white/70">
-                        Fundora
+                        <img src={logo} alt="Logo" className="h-12 w-auto inline-block mr-2" />
                     </span>
                 </Link>
 
