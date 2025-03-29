@@ -8,61 +8,50 @@ gsap.registerPlugin(ScrollTrigger);
 const InnovatorsArena = () => {
     const containerRef = useRef(null);
     const titleRef = useRef(null);
-    const cardsRef = useRef([]);
     const buttonRef = useRef(null);
+    const cardRef= useRef(null);
 
     useGSAP(() => {
-        // Title animation
-        gsap.from(titleRef.current, {
-            y: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: titleRef.current,
-                start: "top 80%",
-            }
-        });
-
-        // Cards stagger animation
-        gsap.from(cardsRef.current, {
-            y: 100,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
+        const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: containerRef.current,
-                start: "top 60%",
+                trigger:cardRef.current,
+                start: "top center",
+                end: "bottom center",
+                toggleActions: "play none none reverse",
             }
         });
 
-        // Button animation
-        gsap.from(buttonRef.current, {
+        tl.from(titleRef.current, {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        })
+        .from(buttonRef.current, {
             scale: 0.8,
             opacity: 0,
-            duration: 1,
-            delay: 0.5,
-            ease: "elastic.out(1, 0.5)",
-            scrollTrigger: {
-                trigger: buttonRef.current,
-                start: "top 80%",
-            }
-        });
+            duration: 0.5,
+            ease: "back.out(1.7)"
+        }, "-=0.2");
+        
+
     }, []);
 
     return (
         <div className="bg-gradient-to-br from-teal-800 to-teal-900 text-white py-16">
-            <div className="container mx-auto px-4">
+            <div ref={containerRef} className="container mx-auto px-4">
                 <h1 ref={titleRef} className="text-4xl md:text-5xl font-bold text-center mb-12">
                     Innovators Arena: Bi-Monthly Ideathon
                 </h1>
 
                 <div className="flex items-center justify-between">
-                    <div ref={containerRef} className="flex space-x-4 mx-auto lg:space-x-8">
-                    <div ref={buttonRef} className="w-[250px] h-[250px] flex flex-col justify-center items-center bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20">
+                    <div className="flex space-x-4 mx-auto lg:space-x-8">
+                        <div ref={buttonRef} className="w-[250px] h-[250px] flex flex-col justify-center items-center rounded-lg p-6">
                             <div className="text-lg text-teal-100 mb-4 text-center">
                                 Ready to showcase your idea?
                             </div>
-                            <div className="w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full mb-4">
+                            <div className="w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full mb-4 transition-transform duration-300 group-hover:translate-x-1">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -85,7 +74,8 @@ const InnovatorsArena = () => {
                                 Limited slots available
                             </div>
                         </div>
-                        <div ref={el => cardsRef.current[0] = el} className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20">
+
+                        <div className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-lg hover:shadow-teal-500/20" ref={cardRef}>
                             <h2 className="text-xl font-semibold mb-3 text-teal-100">About the Event</h2>
                             <p className="text-white/80 text-sm leading-relaxed">
                                 Every two months, we organize an exciting ideathon where innovative minds come together
@@ -93,7 +83,7 @@ const InnovatorsArena = () => {
                             </p>
                         </div>
 
-                        <div ref={el => cardsRef.current[1] = el} className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20">
+                        <div className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-lg hover:shadow-teal-500/20">
                             <h2 className="text-xl font-semibold mb-3 text-teal-100">Selection Process</h2>
                             <p className="text-white/80 text-sm leading-relaxed">
                                 Out of all the brilliant ideas presented, our expert panel
@@ -101,7 +91,7 @@ const InnovatorsArena = () => {
                             </p>
                         </div>
 
-                        <div ref={el => cardsRef.current[2] = el} className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20">
+                        <div className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-lg hover:shadow-teal-500/20">
                             <h2 className="text-xl font-semibold mb-3 text-teal-100">Rewards</h2>
                             <div className="text-white/80 text-sm space-y-2">
                                 <p>🏆 First Place: Extended mentorship</p>
@@ -109,9 +99,6 @@ const InnovatorsArena = () => {
                                 <p>🥉 Third Place: Recognition</p>
                             </div>
                         </div>
-
-                        {/* Register Button Section */}
-                        
                     </div>
                 </div>
             </div>

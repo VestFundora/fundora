@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 function Popular() {
     const popularRef = useRef(null);
@@ -20,6 +21,16 @@ function Popular() {
             }
         });
     });
+
+    const slideContainer = (container, direction) => {
+        const scrollAmount = 300;
+        const currentScroll = container.scrollLeft;
+        gsap.to(container, {
+            scrollLeft: currentScroll + (direction === 'left' ? -scrollAmount : scrollAmount),
+            duration: 0.5,
+            ease: "power2.out"
+        });
+    };
 
     // Sample investor data - fetch this from an API in a real app
     const investors = [
@@ -83,6 +94,20 @@ function Popular() {
                     
                     {/* Carousel Container */}
                     <div className="relative overflow-hidden">
+                        {/* Arrow Buttons */}
+                        <button 
+                            onClick={() => slideContainer(investorsRef.current, 'left')}
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 p-2 rounded-full shadow-lg hover:bg-teal-950 hover:text-white transition-all duration-300"
+                        >
+                            <FaChevronLeft className="text-2xl" />
+                        </button>
+                        <button 
+                            onClick={() => slideContainer(investorsRef.current, 'right')}
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 p-2 rounded-full shadow-lg hover:bg-teal-950 hover:text-white transition-all duration-300"
+                        >
+                            <FaChevronRight className="text-2xl" />
+                        </button>
+
                         {/* Gradient Overlays for Infinite Effect */}
                         <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
                         <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
@@ -90,13 +115,13 @@ function Popular() {
                         {/* Scrolling Carousel */}
                         <div 
                             ref={investorsRef}
-                            className="flex space-x-8 py-4"
+                            className="flex space-x-8 py-4 overflow-x-scroll scrollbar-hide"
                         >
                             {/* Duplicate the investors array for infinite scrolling effect */}
                             {[...investors, ...investors, ...investors].map((investor, index) => (
                                 <div 
                                     key={`${investor.id}-${index}`} 
-                                    className="flex flex-col items-center flex-shrink-0 transition-all duration-300"
+                                    className="flex flex-col items-center flex-shrink-0 transition-all duration-300 hover:-translate-y-2 cursor-pointer"
                                 >
                                     <div className="relative w-20 h-20 lg:w-36 lg:h-36 mb-3">
                                         <img 
@@ -122,19 +147,34 @@ function Popular() {
                     </p>
                     
                     <div className="relative overflow-hidden">
+                        {/* Arrow Buttons */}
+                        <button 
+                            onClick={() => slideContainer(startupsRef.current, 'left')}
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 p-2 rounded-full shadow-lg hover:bg-teal-950 hover:text-white transition-all duration-300"
+                        >
+                            <FaChevronLeft className="text-2xl" />
+                        </button>
+                        <button 
+                            onClick={() => slideContainer(startupsRef.current, 'right')}
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 p-2 rounded-full shadow-lg hover:bg-teal-950 hover:text-white transition-all duration-300"
+                        >
+                            <FaChevronRight className="text-2xl" />
+                        </button>
+
+                        {/* Gradient Overlays */}
                         <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
                         <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
                         
                         <div 
                             ref={startupsRef}
-                            className="flex space-x-8 py-4"
+                            className="flex space-x-8 py-4 overflow-x-scroll scrollbar-hide"
                         >
                             {[...startups, ...startups, ...startups].map((startup, index) => (
                                 <div 
                                     key={`${startup.id}-${index}`}
-                                    className="flex flex-col items-center flex-shrink-0 transition-all duration-300"
+                                    className="flex flex-col items-center flex-shrink-0 transition-all duration-300 hover:-translate-y-2 hover:scale-105 cursor-pointer"
                                 >
-                                    <div className="w-24 h-16 lg:w-32 lg:h-24 mb-3 flex items-center justify-center">
+                                    <div className="w-24 h-16 lg:w-32 lg:h-24 mb-3 flex items-center justify-center p-4 rounded-lg hover:bg-white/50">
                                         <img 
                                             src={startup.logo}
                                             alt={startup.name}
