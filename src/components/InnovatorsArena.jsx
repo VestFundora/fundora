@@ -32,7 +32,8 @@ const InnovatorsArena = () => {
 
                 <div className="flex flex-col lg:flex-row items-center justify-between">
                     <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0  w-full">
-                        <div ref={buttonRef} className="w-full lg:w-[250px] h-auto lg:h-[250px] flex flex-col justify-center items-center rounded-lg p-6">
+                        
+                    <div ref={buttonRef} className="w-full lg:w-[250px] h-auto lg:h-[250px] flex flex-col justify-center items-center rounded-lg p-6 ml-auto">
                             <div className="text-base lg:text-lg text-teal-100 mb-4 text-center">
                                 Ready to showcase your idea?
                             </div>
@@ -58,6 +59,7 @@ const InnovatorsArena = () => {
                                 Limited slots available
                             </div>
                         </div>
+
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto gap-8 mt-8 lg:mt-0">
                             <div className="w-[250px] h-[250px] bg-white/10 rounded-lg p-6 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-lg hover:shadow-teal-500/20 mx-auto">
