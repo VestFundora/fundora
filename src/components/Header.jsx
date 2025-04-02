@@ -47,7 +47,7 @@ function Header() {
                 <Link 
                     to="/" 
                     className="text-2xl font-bold text-white transition-all duration-300 hover:scale-105"
-                >
+                >                                                                           
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-white font-raleway to-white/70">
                         <img src={logo} alt="Logo" className="h-12 w-auto inline-block mr-2" />
                     </span>

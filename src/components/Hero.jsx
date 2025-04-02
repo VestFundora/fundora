@@ -1,7 +1,7 @@
 function Hero() {
     return (
         <>
-            <div className="relative w-full bg-gradient-to-br from-teal-800 to-teal-600 h-screen overflow-hidden">
+            <div className="relative w-full bg-gradient-to-br from-teal-800 via-teal-300 to-teal-600 h-screen overflow-hidden">
                 {/* Hero Image with Overlay */}
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-black opacity-50"></div>
