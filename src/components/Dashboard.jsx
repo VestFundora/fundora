@@ -57,7 +57,7 @@ function Dashboard() {
     ];
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+        <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 ">
             {/* Overlay for mobile sidebar */}
             {isMobile && isSidebarOpen && (
                 <div 
