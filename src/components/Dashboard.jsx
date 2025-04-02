@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaCog, FaBell, FaSearch, FaWallet, FaStar, FaUserCircle, FaList, FaCrown } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -6,6 +7,7 @@ import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
 function Dashboard() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     // Handle responsive sidebar
     useEffect(() => {
@@ -76,7 +78,13 @@ function Dashboard() {
                 min-h-screen h-full
             `}>
                 <div className="p-4 flex items-center justify-between border-b border-teal-900">
-                    {isSidebarOpen && <h2 className="text-xl font-bold cursor-pointer">Fundora</h2>}
+                    {isSidebarOpen && (
+                        <Link to="/">
+                            <h2 className="text-xl font-bold cursor-pointer hover:text-teal-400 transition-colors">
+                                Fundora
+                            </h2>
+                        </Link>
+                    )}
                     <button 
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                         className="p-2 hover:bg-teal-900 rounded-lg transition-colors cursor-pointer"
@@ -90,7 +98,7 @@ function Dashboard() {
                         {navItems.slice(0, -1).map((item, index) => (
                             <a
                                 key={index}
-                                href="#"
+                                onClick={() => item.label === "Home" && navigate("/")}
                                 className={`flex items-center px-4 py-3 text-gray-300 hover:bg-teal-900 hover:text-white transition-colors cursor-pointer`}
                             >
                                 <item.icon size={20} />
