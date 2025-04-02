@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { MdDashboard } from 'react-icons/md'
 import logo from '../assets/Logo.png'
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -96,8 +97,15 @@ function Header() {
                     </div>
                 </button>
 
-                {/* Auth Buttons */}
+                {/* Auth Buttons - Modified */}
                 <div className="hidden md:flex items-center gap-3">
+                    <Link 
+                        to="/dashboard" 
+                        className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-teal-950/20 rounded-full transition-all duration-300 hover:bg-teal-950/30 hover:scale-105 hover:shadow-lg hover:shadow-white/10 active:scale-95 cursor-pointer backdrop-blur-sm"
+                    >
+                        <MdDashboard className="text-lg" />
+                        <span>Dashboard</span>
+                    </Link>
                     <button className="px-5 py-2 text-sm font-medium text-white bg-transparent rounded-full transition-all duration-300 hover:bg-white/10 hover:scale-105 hover:shadow-white/20 active:scale-95 cursor-pointer">
                         Login
                     </button>
@@ -107,7 +115,7 @@ function Header() {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu - Modified */}
             <div className={`md:hidden fixed inset-x-0 top-[72px] bg-black/90 backdrop-blur-lg transition-all duration-300 ${
                 isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'
             }`}>
@@ -134,6 +142,14 @@ function Header() {
                             </li>
                         ))}
                         <li className="pt-4 flex flex-col gap-2">
+                            <Link 
+                                to="/dashboard"
+                                className="w-full px-5 py-2 text-sm font-medium text-white bg-teal-950 rounded-lg transition-all duration-300 hover:bg-teal-900 flex items-center justify-center gap-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <MdDashboard className="text-lg" />
+                                <span>Dashboard</span>
+                            </Link>
                             <button className="w-full px-5 py-2 text-sm font-medium text-white bg-transparent border border-white/20 rounded-lg transition-all duration-300 hover:bg-white/10">
                                 Login
                             </button>
