@@ -78,7 +78,7 @@ function Dashboard() {
                 min-h-screen h-full
             `}>
                 <div className="p-4 flex items-center justify-between border-b border-teal-900">
-                    {isSidebarOpen && (
+                    {isSidebarOpen &&  (
                         <Link to="/">
                             <h2 className="text-xl font-bold cursor-pointer hover:text-teal-400 transition-colors">
                                 Fundora
