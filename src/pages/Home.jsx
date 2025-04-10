@@ -4,16 +4,20 @@ import Features from '../components/Features'
 import SuccessStories from '../components/SuccessStories'
 import Popular from '../components/Popular'
 import InnovatorsArena from '../components/InnovatorsArena'
-function Home(){
-return(
+import Footer from '../components/Footer'
+
+function Home() {
+  return (
     <>
-    <Header/>
-    <Hero/>
-    <Features/>
-    <SuccessStories/>
-    <Popular/>
-    <InnovatorsArena/>
+      <Header />
+      <Hero />
+      <Features />
+      <SuccessStories />
+      <Popular />
+      <InnovatorsArena />
+      <Footer />
     </>
-)
+  )
 }
-export default Home;
+
+export default Home

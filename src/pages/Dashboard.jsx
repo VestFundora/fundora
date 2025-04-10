@@ -18,7 +18,7 @@ import {
   Search,
   ArrowUpRight
 } from 'lucide-react';
-
+import News from '../components/News';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -93,16 +93,16 @@ function Dashboard() {
             <nav className='flex-1 px-4 space-y-8'>
               <div className='space-y-8'>
                 {[
-                  { icon: <Home className="h-5 w-5" />, label: 'Home', path: '/home' },
-                  { icon: <Briefcase className="h-5 w-5" />, label: 'Portfolio', path: '/portfolio' },
-                  { icon: <User className="h-5 w-5" />, label: 'Profile', path: '/profile' },
-                  { icon: <Bookmark className="h-5 w-5" />, label: 'Saved Startups', path: '/saved' },
-                  { icon: <Send className="h-5 w-5" />, label: 'Approach List', path: '/approach' },
-                  { icon: <Settings className="h-5 w-5" />, label: 'Settings', path: '/settings' },
+                  { icon: <Home className="h-5 w-5" />, label: 'Home', path: 'home' },
+                  { icon: <Briefcase className="h-5 w-5" />, label: 'Portfolio', path: 'portfolio' },
+                  { icon: <User className="h-5 w-5" />, label: 'Profile', path: 'profile' },
+                  { icon: <Bookmark className="h-5 w-5" />, label: 'Saved Startups', path: 'saved' },
+                  { icon: <Send className="h-5 w-5" />, label: 'Approach List', path: 'approach' },
+                  { icon: <Settings className="h-5 w-5" />, label: 'Settings', path: 'settings' },
                 ].map((item) => (
                   <Link
                     key={item.label}
-                    to={item.path}
+                    to={`/dashboard/${item.path}`}
                     className='flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-green-600 transition-all focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2'
                     onClick={() => window.innerWidth < 1024 && setSidebarOpen(false)}
                   >
@@ -167,6 +167,7 @@ function Dashboard() {
           </div>
         </main>
       </div>
+      <News />
     </div>
   );
 }
