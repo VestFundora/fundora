@@ -18,7 +18,7 @@ import {
   Search,
   ArrowUpRight
 } from 'lucide-react';
-import Logo from '../assets/Logo.png';
+
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -43,7 +43,7 @@ function Dashboard() {
   return (
     <div className='flex flex-col min-h-screen bg-gray-50 overflow-hidden'>
       {/* Navbar */}
-      <nav className='sticky top-0 z-50 flex justify-between items-center px-4 lg:px-6 py-4 bg-teal-600 shadow-sm'>
+      <nav className='sticky top-0 z-50 flex justify-between items-center px-4 lg:px-6 py-4 bg-teal-900 shadow-sm'>
         <div className='flex items-center gap-4'>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -52,7 +52,11 @@ function Dashboard() {
           >
             {sidebarOpen ? <X className='h-6 w-6' /> : <Menu className='h-6 w-6' />}
           </button>
-          <img src={Logo} alt="Logo" className='h-8' />
+          <Link to="/">
+                            <h2 className="text-xl text-white font-bold cursor-pointer hover:text-teal-400 transition-colors">
+                                Fundora
+                            </h2>
+                        </Link>
         </div>
         <ul className='flex items-center gap-2 md:gap-4'>
           <li className='hidden md:block'>
