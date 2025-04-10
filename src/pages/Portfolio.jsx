@@ -4,7 +4,7 @@ import { FaHome, FaCog, FaBell, FaSearch, FaWallet, FaStar, FaUserCircle, FaList
 import { MdDashboard } from 'react-icons/md';
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-function Dashboard() {
+function Portfolio() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
@@ -249,4 +249,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default Portfolio;
