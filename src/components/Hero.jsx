@@ -23,11 +23,13 @@ function Hero() {
                             </Link>
                         </button>
                         <button className="px-8 py-3 bg-transparent border-2 border-white text-white font-medium rounded-md hover:bg-white hover:text-teal-950 transition-all duration-300 shadow-lg  hover:shadow-white/20 transform hover:scale-105 cursor-pointer">
+                        <Link to="/signup/investor">
                             Join as an Investor
+                            </Link>
                         </button>
                     </div>
 
-                   
+            
                 </div>
             </div>
         </>

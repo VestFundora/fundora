@@ -3,23 +3,19 @@ import React, { useState } from 'react';
 function SignUpStartup() {
     const [formData, setFormData] = useState({
         aadhar: '',
-        pan: '',
-        cin: ''
+        pan: ''
     });
     const [verificationStatus, setVerificationStatus] = useState({
         aadhar: false,
-        pan: false,
-        cin: false
+        pan: false
     });
     const [loading, setLoading] = useState({
         aadhar: false,
-        pan: false,
-        cin: false
+        pan: false
     });
     const [error, setError] = useState({
         aadhar: '',
-        pan: '',
-        cin: ''
+        pan: ''
     });
 
     const handleInputChange = (e) => {
@@ -60,17 +56,6 @@ function SignUpStartup() {
                 setError(prev => ({ ...prev, pan: 'Invalid PAN number' }));
             }
         }, 'pan');
-    };
-
-    const verifyCIN = () => {
-        simulateLoading(() => {
-            if (formData.cin === 'L12345AB1234ABC123456') {
-                setVerificationStatus(prev => ({ ...prev, cin: true }));
-                setError(prev => ({ ...prev, cin: '' }));
-            } else {
-                setError(prev => ({ ...prev, cin: 'Invalid CIN number' }));
-            }
-        }, 'cin');
     };
 
     return (
@@ -124,30 +109,6 @@ function SignUpStartup() {
                             className="w-full p-2 sm:p-3 text-sm sm:text-base bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 cursor-pointer transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 font-medium"
                         >
                             {loading.pan ? 'Verifying...' : verificationStatus.pan ? '✓ Verified' : 'Verify PAN'}
-                        </button>
-                    </div>
-
-                    <div className="space-y-2 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                        <h3 className="text-sm sm:text-base font-semibold text-gray-700 flex items-center">
-                            <span className="bg-teal-500 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center mr-2">3</span>
-                            CIN Verification
-                        </h3>
-                        <input
-                            type="text"
-                            name="cin"
-                            value={formData.cin}
-                            onChange={handleInputChange}
-                            placeholder="Enter CIN Number"
-                            className="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
-                            disabled={verificationStatus.cin}
-                        />
-                        {error.cin && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.cin}</p>}
-                        <button
-                            onClick={verifyCIN}
-                            disabled={loading.cin || verificationStatus.cin}
-                            className="w-full p-2 sm:p-3 text-sm sm:text-base bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 cursor-pointer transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 font-medium"
-                        >
-                            {loading.cin ? 'Verifying...' : verificationStatus.cin ? '✓ Verified' : 'Verify CIN'}
                         </button>
                     </div>
                 </div>
