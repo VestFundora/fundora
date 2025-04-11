@@ -4,11 +4,13 @@ import Features from '../components/Features'
 import SuccessStories from '../components/SuccessStories'
 import Popular from '../components/Popular'
 import InnovatorsArena from '../components/InnovatorsArena'
+import SmoothScroll from '../components/LenisScroll'
 import Footer from '../components/Footer'
 
 function Home() {
   return (
     <>
+    <SmoothScroll>
       <Header />
       <Hero />
       <Features />
@@ -16,6 +18,7 @@ function Home() {
       <Popular />
       <InnovatorsArena />
       <Footer />
+      </SmoothScroll>
     </>
   )
 }
