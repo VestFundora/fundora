@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MdDashboard } from 'react-icons/md'
@@ -9,8 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showSignupOptions, setShowSignupOptions] = useState(false);
     const headerRef = useRef(null);
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // GSAP scroll animation
@@ -39,6 +41,10 @@ function Header() {
             headerAnimation.kill();
         };
     }, []);
+
+    const handleSignUp = () => {
+        setShowSignupOptions(!showSignupOptions);
+    };
 
     return (
         <header ref={headerRef} className="fixed w-full top-0 left-0 z-50 transition-all duration-500 px-4 py-6">
@@ -98,7 +104,7 @@ function Header() {
                 </button>
 
                 {/* Auth Buttons - Modified */}
-                <div className="hidden md:flex items-center gap-3">
+                <div className="hidden md:flex items-center gap-3 relative">
                     <Link 
                         to="/dashboard" 
                         className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-teal-950/20 rounded-full transition-all duration-300 hover:bg-teal-950/30 hover:scale-105 hover:shadow-lg hover:shadow-white/10 active:scale-95 cursor-pointer backdrop-blur-sm"
@@ -109,9 +115,32 @@ function Header() {
                     <button className="px-5 py-2 text-sm font-medium text-white bg-transparent rounded-full transition-all duration-300 hover:bg-white/10 hover:scale-105 hover:shadow-white/20 active:scale-95 cursor-pointer">
                         Login
                     </button>
-                    <button className="px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:-translate-y-0.5 hover:scale-105  active:scale-95 cursor-pointer">
-                        Sign Up
-                    </button>
+                    <div className="relative">
+                        <button 
+                            onClick={handleSignUp}
+                            className="px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:-translate-y-0.5 hover:scale-105 active:scale-95 cursor-pointer"
+                        >
+                            Sign Up
+                        </button>
+                        {showSignupOptions && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                                <Link 
+                                    to="/signup/startup"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setShowSignupOptions(false)}
+                                >
+                                    Join as Startup
+                                </Link>
+                                <Link 
+                                    to="/signup/investor"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setShowSignupOptions(false)}
+                                >
+                                    Join as Investor
+                                </Link>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -153,9 +182,22 @@ function Header() {
                             <button className="w-full px-5 py-2 text-sm font-medium text-white bg-transparent border border-white/20 rounded-lg transition-all duration-300 hover:bg-white/10">
                                 Login
                             </button>
-                            <button className="w-full px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-lg transition-all duration-300 hover:opacity-90">
-                                Sign Up
-                            </button>
+                            <div className="space-y-2">
+                                <Link 
+                                    to="/signup/startup"
+                                    className="block w-full px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-lg transition-all duration-300 hover:opacity-90"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Join as Startup
+                                </Link>
+                                <Link 
+                                    to="/signup/investor"
+                                    className="block w-full px-5 py-2 text-sm font-medium text-teal-950 bg-white rounded-lg transition-all duration-300 hover:opacity-90"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Join as Investor
+                                </Link>
+                            </div>
                         </li>
                     </ul>
                 </nav>

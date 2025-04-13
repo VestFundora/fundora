@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 
 function SignUpInvestor() {
     const [formData, setFormData] = useState({
-        cin: '',
+        aadhar: '',
         name: '',
         dob: '',
         pan: ''
     });
     const [verificationStatus, setVerificationStatus] = useState({
-        cin: false,
+        aadhar: false,
         pan: false
     });
     const [loading, setLoading] = useState({
-        cin: false,
+        aadhar: false,
         pan: false
     });
     const [error, setError] = useState({
-        cin: '',
+        aadhar: '',
         pan: ''
     });
 
-    const [step, setStep] = useState(1); // 1 for CIN, 2 for PAN
+    const [step, setStep] = useState(1); // 1 for Aadhar, 2 for PAN
 
     const handleInputChange = (e) => {
         setFormData({
@@ -40,16 +40,16 @@ function SignUpInvestor() {
         callback();
     };
 
-    const verifyCIN = () => {
+    const verifyAadhar = () => {
         simulateLoading(() => {
-            if (formData.cin === 'L12345AB1234ABC123456') {
-                setVerificationStatus(prev => ({ ...prev, cin: true }));
-                setError(prev => ({ ...prev, cin: '' }));
-                setStep(2); // Move to PAN verification
+            if (formData.aadhar === '123456789012') {
+                setVerificationStatus(prev => ({ ...prev, aadhar: true }));
+                setError(prev => ({ ...prev, aadhar: '' }));
+                setStep(2);
             } else {
-                setError(prev => ({ ...prev, cin: 'Invalid CIN number' }));
+                setError(prev => ({ ...prev, aadhar: 'Invalid Aadhar number' }));
             }
-        }, 'cin');
+        }, 'aadhar');
     };
 
     const verifyPAN = () => {
@@ -69,33 +69,33 @@ function SignUpInvestor() {
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">Investor Verification</h2>
 
                 <div className="space-y-4">
-                    {/* CIN Verification */}
-                    <div className={`space-y-2 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-100 ${step !== 1 && verificationStatus.cin ? 'opacity-60' : ''}`}>
+                    {/* Aadhar Verification */}
+                    <div className={`space-y-2 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-100 ${step !== 1 && verificationStatus.aadhar ? 'opacity-60' : ''}`}>
                         <h3 className="text-sm sm:text-base font-semibold text-gray-700 flex items-center">
                             <span className="bg-teal-500 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center mr-2">1</span>
-                            CIN Verification
+                            Aadhar Verification
                         </h3>
                         <input
                             type="text"
-                            name="cin"
-                            value={formData.cin}
+                            name="aadhar"
+                            value={formData.aadhar}
                             onChange={handleInputChange}
-                            placeholder="Enter CIN Number"
+                            placeholder="Enter Aadhar Number"
                             className="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
-                            disabled={verificationStatus.cin}
+                            disabled={verificationStatus.aadhar}
                         />
-                        {error.cin && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.cin}</p>}
+                        {error.aadhar && <p className="text-red-500 text-xs sm:text-sm mt-1">{error.aadhar}</p>}
                         <button
-                            onClick={verifyCIN}
-                            disabled={loading.cin || verificationStatus.cin}
+                            onClick={verifyAadhar}
+                            disabled={loading.aadhar || verificationStatus.aadhar}
                             className="w-full p-2 sm:p-3 text-sm sm:text-base bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 cursor-pointer transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 font-medium"
                         >
-                            {loading.cin ? 'Verifying...' : verificationStatus.cin ? '✓ Verified' : 'Verify CIN'}
+                            {loading.aadhar ? 'Verifying...' : verificationStatus.aadhar ? '✓ Verified' : 'Verify Aadhar'}
                         </button>
                     </div>
 
-                    {/* PAN Verification - Only show after CIN is verified */}
-                    {verificationStatus.cin && (
+                    {/* PAN Verification - Only show after Aadhar is verified */}
+                    {verificationStatus.aadhar && (
                         <div className="space-y-2 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-100">
                             <h3 className="text-sm sm:text-base font-semibold text-gray-700 flex items-center">
                                 <span className="bg-teal-500 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center mr-2">2</span>
