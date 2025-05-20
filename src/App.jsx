@@ -19,7 +19,8 @@ function App() {
           <Route path="/dashboard/portfolio" element={<Portfolio />} />
         </Routes>
       </SmoothScroll>
-    </Router>
+    </Router> 
+    
   );
 }
 
