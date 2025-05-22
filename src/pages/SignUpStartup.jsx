@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { FaBuilding } from 'react-icons/fa';
 
 function SignUpStartup() {
     const [formData, setFormData] = useState({
@@ -7,6 +9,7 @@ function SignUpStartup() {
     const [verificationStatus, setVerificationStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [result, setResult] = useState(null);
 
     const handleInputChange = (e) => {
         setFormData({
@@ -14,56 +17,55 @@ function SignUpStartup() {
             [e.target.name]: e.target.value
         });
         setError('');
+        setResult(null);
     };
 
-    const simulateLoading = async (callback) => {
+    const verifyCIN = async () => {
         setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        setLoading(false);
-        callback();
-    };
-
-    const verifyCIN = () => {
-        simulateLoading(() => {
-            if (formData.cin === 'L12345AB1234ABC123456') {
-                setVerificationStatus(true);
-                setError('');
-            } else {
-                setError('Invalid CIN number');
-            }
-        });
+        try {
+            const res = await axios.post("http://localhost:5000/api/Company/verifyCompany", {
+                cin: formData.cin
+            });
+            setVerificationStatus(true);
+            setResult(res.data);
+        } catch (err) {
+            setError("Invalid CIN number");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-2">
-            <div className="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-[95%] sm:max-w-[85%] md:max-w-md border border-gray-100">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">Startup Verification</h2>
-
-                <div className="space-y-4">
-                    {/* CIN Verification */}
-                    <div className="space-y-2 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-100">
-                        <h3 className="text-sm sm:text-base font-semibold text-gray-700 flex items-center">
-                            <span className="bg-teal-500 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center mr-2">1</span>
-                            CIN Verification
-                        </h3>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-100 px-4 py-2">
+            <div className="bg-white/90 p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md border border-teal-100 relative">
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-teal-500 rounded-full p-3 shadow-lg">
+                    <FaBuilding className="text-white text-3xl" />
+                </div>
+                <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 mt-8 tracking-tight">Startup CIN Verification</h2>
+                <div className="space-y-6">
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2 mb-1">
+                            <FaBuilding className="text-teal-600" />
+                            <span className="font-semibold text-gray-700">CIN Number</span>
+                        </div>
                         <input
-                            type="text"
                             name="cin"
                             value={formData.cin}
                             onChange={handleInputChange}
                             placeholder="Enter CIN Number"
-                            className="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
                             disabled={verificationStatus}
+                            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-teal-50/50 text-gray-800 placeholder-gray-400"
                         />
-                        {error && <p className="text-red-500 text-xs sm:text-sm mt-1">{error}</p>}
                         <button
                             onClick={verifyCIN}
                             disabled={loading || verificationStatus}
-                            className="w-full p-2 sm:p-3 text-sm sm:text-base bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 cursor-pointer transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 font-medium"
+                            className="w-full p-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 transition font-semibold shadow-md mt-1"
                         >
-                            {loading ? 'Verifying...' : verificationStatus ? '✓ Verified' : 'Verify CIN'}
+                            {loading ? 'Verifying...' : verificationStatus ? '✓ CIN Verified' : 'Verify CIN'}
                         </button>
                     </div>
+                    {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
                 </div>
             </div>
         </div>

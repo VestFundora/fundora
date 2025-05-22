@@ -17,6 +17,7 @@ function App() {
           <Route path="/signup/investor" element={<SignUpInvestor />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/dashboard/portfolio" element={<Portfolio />} />
+
         </Routes>
       </SmoothScroll>
     </Router> 
