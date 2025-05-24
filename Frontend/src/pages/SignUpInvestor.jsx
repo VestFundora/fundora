@@ -65,23 +65,72 @@ function SignUpInvestor() {
         }
     };
 
+const verifyPAN = async () => {
+    setLoading(prev => ({ ...prev, pan: true }));
+    setError('');
+    setResult('');
 
-    const verifyPAN = async () => {
-        setLoading(prev => ({ ...prev, pan: true }));
-        try {
-            const res = await axios.post("http://localhost:5000/api/pan/verifyPan", {
-                id_number: formData.pan,
-                full_name: formData.name,
-                dob: formData.dob
-            });
+    try {
+        // Normalize name before sending
+        const cleanedName = formData.name
+            .trim()
+            .replace(/\s+/g, ' ') // collapse multiple spaces
+            .toUpperCase()
+            .replace(/[^\w\s]/g, '') // remove special characters (optional)
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+
+        const res = await axios.post("http://localhost:5000/api/pan/verifyPan", {
+            id_number: formData.pan,
+            full_name: cleanedName,
+            dob: formData.dob
+        });
+
+        console.log("PAN Verification Response:", JSON.stringify(res.data, null, 2));
+
+        const data = res.data?.data;
+        const entry = Array.isArray(data) ? data[0] : null;
+
+        const taskStatus = entry?.status;
+        const sourceOutput = entry?.result?.source_output;
+
+        const isVerified =
+            taskStatus === 'completed' &&
+            sourceOutput?.status === 'id_found' &&
+            sourceOutput?.name_match === true;
+
+        if (isVerified) {
             setVerified(prev => ({ ...prev, pan: true }));
-            setResult(res.data);
-        } catch (err) {
-            setError("PAN verification failed");
-        } finally {
-            setLoading(prev => ({ ...prev, pan: false }));
+            setResult("PAN verification successful!");
+        } else {
+            setVerified(prev => ({ ...prev, pan: false }));
+
+            const expected = sourceOutput?.input_details?.input_name;
+            const entered = formData.name.trim().toLowerCase();
+            const expectedNormalized = expected?.trim().toLowerCase();
+
+            console.log("Entered name:", entered);
+            console.log("Expected name:", expectedNormalized);
+
+            const msg =
+                sourceOutput?.name_match === false
+                    ? `PAN name verification failed. Please ensure the name exactly matches the one on your PAN card.`
+                    : entry?.message || "PAN verification failed. Please check your details.";
+
+            setError(msg);
         }
-    };
+
+    } catch (err) {
+        console.error("PAN verification error:", err);
+        setVerified(prev => ({ ...prev, pan: false }));
+        setError("PAN verification failed. Please try again.");
+    } finally {
+        setLoading(prev => ({ ...prev, pan: false }));
+    }
+};
+
+
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-100 px-4 py-2">
