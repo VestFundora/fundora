@@ -3,34 +3,45 @@ import axios from 'axios';
 import { FaBuilding } from 'react-icons/fa';
 
 function SignUpStartup() {
-    const [formData, setFormData] = useState({
-        cin: ''
-    });
+    const [formData, setFormData] = useState({ cin: '' });
     const [verificationStatus, setVerificationStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [result, setResult] = useState(null);
 
     const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
         setError('');
         setResult(null);
+        setVerificationStatus(false);
     };
 
     const verifyCIN = async () => {
         setLoading(true);
+        setError('');
+        setResult(null);
+
         try {
-            const res = await axios.post("http://localhost:5000/api/Company/verifyCompany", {
-                cin: formData.cin
+            const res = await axios.post("http://localhost:5000/api/company/verifyCompany", {
+                cin: formData.cin.trim().toUpperCase()
             });
-            setVerificationStatus(true);
-            setResult(res.data);
+
+            const task = res.data?.data?.[0];
+            const companyInfo = task?.result?.source_output;
+
+            console.log("🎯 CIN Verification Response:", companyInfo);
+
+            if (task?.status === 'completed' && companyInfo?.status === 'id_found') {
+                setVerificationStatus(true);
+                setResult(companyInfo);
+            } else {
+                setError("CIN not found or verification failed.");
+                setVerificationStatus(false);
+            }
         } catch (err) {
-            setError("Invalid CIN number");
-            console.error(err);
+            console.error("Verification error:", err);
+            setError("Something went wrong. Please check the CIN or try again.");
+            setVerificationStatus(false);
         } finally {
             setLoading(false);
         }
@@ -44,6 +55,7 @@ function SignUpStartup() {
                 </div>
                 <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 mt-8 tracking-tight">Startup CIN Verification</h2>
                 <div className="space-y-6">
+                    {/* Input */}
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 mb-1">
                             <FaBuilding className="text-teal-600" />
@@ -65,7 +77,20 @@ function SignUpStartup() {
                             {loading ? 'Verifying...' : verificationStatus ? '✓ CIN Verified' : 'Verify CIN'}
                         </button>
                     </div>
-                    {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
+
+                    {/* Result / Error */}
+                    {error && (
+                        <p className="text-red-500 mt-2 text-center font-medium">{error}</p>
+                    )}
+
+                    {result && result.status === 'id_found' && (
+                        <div className="bg-teal-50 p-4 rounded-lg border border-teal-200 mt-4 text-sm text-gray-700">
+                            <p><strong>Company Name:</strong> {result.company_name || 'N/A'}</p>
+                            <p><strong>CIN:</strong> {result.cin || 'N/A'}</p>
+                            <p><strong>Status:</strong> {result.company_status || 'N/A'}</p>
+                            <p><strong>Incorporated:</strong> {result.date_of_incorporation || 'N/A'}</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
