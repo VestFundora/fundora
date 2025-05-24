@@ -4,7 +4,9 @@ import Dashboard from './pages/Dashboard';
 import SignUpStartup from './pages/SignUpStartup';
 import SignUpInvestor from './pages/SignUpInvestor';
 import Portfolio from './pages/Portfolio';
+import StartupMarketplace from './pages/StartupMarketPlace';
 import SmoothScroll from './components/LenisScroll';
+import StartupDetails from './pages/StartupDetails';
 
 function App() {
   return (
@@ -17,11 +19,11 @@ function App() {
           <Route path="/signup/investor" element={<SignUpInvestor />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/dashboard/portfolio" element={<Portfolio />} />
-
+          <Route path="/marketplace" element={<StartupMarketplace />} />
+          <Route path="/marketplace/:cin" element={<StartupDetails />} />
         </Routes>
       </SmoothScroll>
-    </Router> 
-    
+    </Router>
   );
 }
 

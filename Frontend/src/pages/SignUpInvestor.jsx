@@ -26,18 +26,45 @@ function SignUpInvestor() {
 
     const verifyAadhar = async () => {
         setLoading(prev => ({ ...prev, aadhar: true }));
+        setError('');
+        setResult('');
+
         try {
             const res = await axios.post("http://localhost:5000/api/aadhaar/verifyAadhaar", {
                 aadhaar_number: formData.aadhar
             });
-            setVerified(prev => ({ ...prev, aadhar: true }));
-            setResult(res.data);
+
+            const data = res.data?.data;
+            const entry = Array.isArray(data) ? data[0] : null;
+
+            const taskStatus = entry?.status;
+            const sourceOutput = entry?.result?.source_output;
+
+            console.log("source_output:", JSON.stringify(sourceOutput, null, 2));
+
+            // ✅ Change this condition based on actual response content
+            const isVerified = taskStatus === 'completed' && sourceOutput?.status === 'id_found';
+
+            if (isVerified) {
+                setVerified(prev => ({ ...prev, aadhar: true }));
+                setResult('Aadhaar verification successful!');
+                console.log("Full Aadhaar Response:", JSON.stringify(res.data, null, 2));
+                console.log("source_output:", JSON.stringify(res.data?.data?.[0]?.result?.source_output, null, 2));
+
+            } else {
+                setVerified(prev => ({ ...prev, aadhar: false }));
+                const msg = entry?.message || "Aadhaar verification failed. Please check your Aadhaar number.";
+                setError(msg);
+            }
+
         } catch (err) {
-            setError("Aadhaar verification failed");
+            setVerified(prev => ({ ...prev, aadhar: false }));
+            setError("Aadhaar verification failed. Please try again.");
         } finally {
             setLoading(prev => ({ ...prev, aadhar: false }));
         }
     };
+
 
     const verifyPAN = async () => {
         setLoading(prev => ({ ...prev, pan: true }));
@@ -64,6 +91,7 @@ function SignUpInvestor() {
                 </div>
                 <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 mt-8 tracking-tight">Investor Verification</h2>
                 <div className="space-y-6">
+
                     {/* Aadhaar Verification */}
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 mb-1">
@@ -128,11 +156,10 @@ function SignUpInvestor() {
                         </div>
                     )}
 
-                    {result && (
-                        <pre className="bg-gray-100 text-gray-700 text-xs rounded-md p-4 mt-4 overflow-x-auto border border-teal-100">
-                            {JSON.stringify(result, null, 2)}
-                        </pre>
+                    {result && !error && (
+                        <p className="text-green-600 text-center mt-4 font-semibold">{result}</p>
                     )}
+
 
                     {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
                 </div>
