@@ -8,12 +8,12 @@ import {
 
 /* --------------------- Sidebar --------------------- */
 const navigationItems = [
-  { icon: Home, label: "Home", href: "/home", active: true },
-  { icon: User, label: "Profile", href: "/profile" },
-  { icon: Briefcase, label: "Portfolio", href: "/portfolio" },
-  { icon: Star, label: "Saved Startups", href: "/saved-startups" },
-  { icon: List, label: "Approach List", href: "/approach-list" },
-  { icon: Settings, label: "Settings", href: "/settings" },
+  { icon: Home, label: "Home", href: "/", active: true },
+  { icon: User, label: "Profile", href: "/dashboard/profile" },
+  { icon: Briefcase, label: "Portfolio", href: "/dashboard/portfolio" },
+  { icon: Star, label: "Saved Startups", href: "/dashboard/saved-startups" },
+  { icon: List, label: "Approach List", href: "/dashboard/approach-list" },
+  { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
 const DashboardSidebar = ({ isOpen, onToggle }) => (

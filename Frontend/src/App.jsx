@@ -7,6 +7,9 @@ import Portfolio from './pages/Portfolio';
 import StartupMarketplace from './pages/StartupMarketPlace';
 import SmoothScroll from './components/LenisScroll';
 import StartupDetails from './pages/StartupDetails';
+import SavedStartups from './pages/SavedStartups';
+import ApproachList from './pages/ApproachList';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -17,7 +20,9 @@ function App() {
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/signup/startup" element={<SignUpStartup />} />
           <Route path="/signup/investor" element={<SignUpInvestor />} />
-          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/dashboard/saved-startups" element={<SavedStartups />} />
+          <Route path="/dashboard/approach-list" element={<ApproachList />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/portfolio" element={<Portfolio />} />
           <Route path="/marketplace" element={<StartupMarketplace />} />
           <Route path="/marketplace/:cin" element={<StartupDetails />} />
