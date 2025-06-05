@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         raleway: ["Raleway", "sans-serif"],
       },
+      
     },
   },
   plugins: [],

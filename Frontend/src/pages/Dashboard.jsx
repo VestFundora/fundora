@@ -1,175 +1,270 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Home,
-  Briefcase,
-  User,
-  Bookmark,
-  Send,
-  Settings,
-  Crown,
-  Eye,
-  TrendingUp,
-  Bell,
-  HelpCircle,
-  MessageSquare,
-  Menu,
-  X,
-  Search,
-  ArrowUpRight
-} from 'lucide-react';
-import News from '../components/News';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { 
+  Briefcase, BarChart2, TrendingUp, Settings, LogOut,
+  ChevronLeft, ChevronRight, ArrowUp, ArrowDown, TrendingUp as TrendingUpIcon, Plus,
+  Home, User, Star, List
+} from "lucide-react";
 
-function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+/* --------------------- Sidebar --------------------- */
+const navigationItems = [
+  { icon: Home, label: "Home", href: "/home", active: true },
+  { icon: User, label: "Profile", href: "/profile" },
+  { icon: Briefcase, label: "Portfolio", href: "/portfolio" },
+  { icon: Star, label: "Saved Startups", href: "/saved-startups" },
+  { icon: List, label: "Approach List", href: "/approach-list" },
+  { icon: Settings, label: "Settings", href: "/settings" },
+];
 
-  // Close sidebar on ESC key
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.keyCode === 27) setSidebarOpen(false);
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
+const DashboardSidebar = ({ isOpen, onToggle }) => (
+  <div className={`fixed left-0 top-0 h-full bg-teal-900 shadow-lg transition-all duration-300 z-10 ${isOpen ? 'w-72' : 'w-20'}`}>
+    <div className="p-4 border-b border-teal-700 flex items-center justify-between">
+      {isOpen && <h1 className="text-xl font-bold text-white">Fundora</h1>}
+      <button onClick={onToggle} className="p-1 hover:bg-teal-700 rounded-lg transition-colors">
+        {isOpen ? <ChevronLeft size={20} className="text-white" /> : <ChevronRight size={20} className="text-white" />}
+      </button>
+    </div>
+    <nav className="py-4">
+      <ul className="space-y-2">
+        {navigationItems.map((item, index) => (
+          <li key={index}>
+            <Link
+              to={item.href}
+              className={`flex items-center px-5 py-4 mx-3 rounded-lg transition-colors ${ 
+                item.active
+                  ? "bg-teal-700 text-white border-r-4 border-teal-600"
+                  : "text-white hover:bg-teal-700"
+              }`}
+            >
+              <item.icon size={24} className="flex-shrink-0 text-white" />
+              {isOpen && <span className="ml-4 text-base font-medium">{item.label}</span>}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+);
 
-  // Prevent body scroll when sidebar is open on mobile
-  useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : 'unset';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [sidebarOpen]);
+/* --------------------- Stats Cards --------------------- */
+const statsData = [
+  {
+    title: "Total Value",
+    amount: "$270,750",
+    change: "+8.2% overall",
+    changeType: "positive",
+    icon: TrendingUpIcon,
+  },
+  {
+    title: "Total Invested",
+    amount: "$250,000",
+    subtitle: "Across 4 investments",
+    icon: Briefcase,
+  },
+  {
+    title: "Unrealized Gains",
+    amount: "+$20,750",
+    subtitle: "Potential profit",
+    changeType: "positive",
+    icon: ArrowUp,
+  },
+  {
+    title: "Best Performer",
+    amount: "TechNova",
+    subtitle: "+20% return",
+    changeType: "positive",
+    icon: TrendingUpIcon,
+  },
+];
 
-  return (
-    <div className='flex flex-col min-h-screen bg-gray-50 overflow-hidden'>
-      {/* Navbar */}
-      <nav className='sticky top-0 z-50 flex justify-between items-center px-3 sm:px-4 lg:px-6 py-3 sm:py-4 bg-teal-900 shadow-sm'>
-        <div className='flex items-center gap-2 sm:gap-4'>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className='lg:hidden text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 rounded-md p-1'
-            aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
-          >
-            {sidebarOpen ? <X className='h-5 w-5 sm:h-6 sm:w-6' /> : <Menu className='h-5 w-5 sm:h-6 sm:w-6' />}
-          </button>
-          <Link to="/">
-            <h2 className="text-lg sm:text-xl text-white font-bold cursor-pointer hover:text-teal-400 transition-colors">
-                Fundora
-            </h2>
-          </Link>
+const StatsCards = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {statsData.map((stat, index) => (
+      <div
+        key={index}
+        className={`p-6 rounded-lg shadow-sm transition-shadow ${
+          stat.changeType === "positive"
+            ? "bg-teal-100 border border-teal-600 text-teal-700"
+            : stat.changeType === "negative"
+            ? "bg-red-100 border border-red-600 text-red-700"
+            : "bg-gray-100 border border-gray-400 text-gray-700"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-medium">{stat.title}</h3>
+          {stat.icon && <stat.icon size={20} className="text-gray-400" />}
         </div>
-        <ul className='flex items-center gap-1 sm:gap-2 md:gap-4'>
-          <li className='hidden md:block'>
-            <button className='text-white hover:text-gray-200 focus:outline-none p-1' aria-label='Search'>
-              <Search className='h-5 w-5 sm:h-6 sm:w-6' />
-            </button>
-          </li>
-          <li className='hidden md:block'>
-            <button className='text-white hover:text-gray-200 focus:outline-none p-1' aria-label='Messages'>
-              <MessageSquare className='h-5 w-5 sm:h-6 sm:w-6' />
-            </button>
-          </li>
-          <li>
-            <button className='text-white hover:text-gray-200 focus:outline-none p-1' aria-label='Notifications'>
-              <Bell className='h-5 w-5 sm:h-6 sm:w-6' />
-            </button>
-          </li>
-          <li className='hidden md:block'>
-            <button className='text-white hover:text-gray-200 focus:outline-none p-1' aria-label='Help'>
-              <HelpCircle className='h-5 w-5 sm:h-6 sm:w-6' />
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-      <div className='flex flex-1 relative'>
-        {/* Sidebar */}
-        <aside
-          className={`fixed lg:static inset-y-0 left-0 transform ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } lg:translate-x-0 transition-transform duration-300 w-64 bg-white border-r border-gray-200 pt-5 pb-4 z-40 h-[calc(100vh-4rem)]`}
-        >
-          <div className='flex flex-col h-full overflow-y-auto'>
-            <nav className='flex-1 px-4 space-y-8'>
-              <div className='space-y-8'>
-                {[
-                  { icon: <Home className="h-5 w-5" />, label: 'Home', path: 'home' },
-                  { icon: <Briefcase className="h-5 w-5" />, label: 'Portfolio', path: 'portfolio' },
-                  { icon: <User className="h-5 w-5" />, label: 'Profile', path: 'profile' },
-                  { icon: <Bookmark className="h-5 w-5" />, label: 'Saved Startups', path: 'saved' },
-                  { icon: <Send className="h-5 w-5" />, label: 'Approach List', path: 'approach' },
-                  { icon: <Settings className="h-5 w-5" />, label: 'Settings', path: 'settings' },
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    to={`/dashboard/${item.path}`}
-                    className='flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-green-600 transition-all focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2'
-                    onClick={() => window.innerWidth < 1024 && setSidebarOpen(false)}
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </Link>
-                ))}
-              </div>
-
-              <div className='pt-4 border-t border-gray-200'>
-                <Link
-                  to='/upgrade'
-                  className='flex items-center space-x-3 px-3 py-2 rounded-lg text-purple-600 hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2'
-                >
-                  <Crown className="h-5 w-5" />
-                  <span>Upgrade Plan</span>
-                </Link>
-              </div>
-            </nav>
-          </div>
-        </aside>
-
-        {/* Overlay */}
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity lg:hidden z-30"
-            onClick={() => setSidebarOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-
-        {/* Main Content */}
-        <main className='flex-1 p-3 sm:p-4 lg:p-8 overflow-y-auto'>
-          <div className='mb-4 sm:mb-6 lg:mb-8'>
-            <h1 className='text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900'>Dashboard Overview</h1>
-          </div>
-
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 auto-rows-max'>
-            <div className='bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 lg:p-6 hover:shadow-md transition-shadow'>
-              <div className='flex justify-between items-center mb-3 sm:mb-4'>
-                <Eye className='text-purple-500 h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8' />
-                <div className='flex items-center text-green-600'>
-                  <ArrowUpRight className='h-3 w-3 sm:h-4 sm:w-4 mr-1' />
-                  <span className='text-sm sm:text-base'>75%</span>
-                </div>
-              </div>
-              <p className='text-gray-500 text-xs sm:text-sm'>Profile Viewers</p>
-              <p className='text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mt-1'>23,423</p>
-            </div>
-
-            <div className='bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 lg:p-6 hover:shadow-md transition-shadow'>
-              <div className='flex justify-between items-center mb-3 sm:mb-4'>
-                <TrendingUp className='text-blue-500 h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8' />
-                <div className='flex items-center text-green-600'>
-                  <ArrowUpRight className='h-3 w-3 sm:h-4 sm:w-4 mr-1' />
-                  <span className='text-sm sm:text-base'>75%</span>
-                </div>
-              </div>
-              <p className='text-gray-500 text-xs sm:text-sm'>Search Appearances</p>
-              <p className='text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mt-1'>23,423</p>
-            </div>
-          </div>
-        </main>
+        <div className="space-y-2">
+          <p className="text-2xl font-bold">{stat.amount}</p>
+          {stat.change && (
+            <p className="text-sm flex items-center gap-1">
+              {stat.changeType === "positive" && <ArrowUp size={14} className="text-teal-700" />}
+              {stat.changeType === "negative" && <ArrowDown size={14} className="text-red-700" />}
+              {stat.change}
+            </p>
+          )}
+          {stat.subtitle && (
+            <p className="text-sm">{stat.subtitle}</p>
+          )}
+        </div>
       </div>
-      <News />
+    ))}
+  </div>
+);
+
+/* --------------------- Asset Allocation --------------------- */
+const allocationData = [
+  { name: "Equity Investments", percentage: 55, amount: "$137,500", color: "bg-black" },
+  { name: "Real Estate (REITs)", percentage: 30, amount: "$75,000", color: "bg-gray-600" },
+  { name: "Funds & ETFs", percentage: 15, amount: "$37,500", color: "bg-gray-400" },
+];
+
+const AssetAllocation = () => (
+  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <h3 className="text-xl font-semibold text-black mb-2">Asset Allocation</h3>
+    <p className="text-gray-600 mb-6">Distribution of your investment portfolio</p>
+    <div className="space-y-6">
+      {allocationData.map((item, index) => (
+        <div key={index} className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-medium text-gray-700">{item.name}</span>
+            <div className="text-right">
+              <span className="text-sm font-semibold text-black">{item.percentage}%</span>
+              <span className="text-sm text-gray-500 ml-2">({item.amount})</span>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className={`h-2 rounded-full ${item.color}`} style={{ width: `${item.percentage}%` }}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* --------------------- Performance Metrics --------------------- */
+const metricsData = [
+  { label: "ROI", value: "+8.30%", type: "positive" },
+  { label: "Volatility", value: "12.5%", type: "neutral" },
+  { label: "Sharpe Ratio", value: "1.42", type: "neutral" },
+  { label: "Risk Level", value: "Medium", type: "warning" },
+];
+
+const PerformanceMetrics = () => (
+  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <h3 className="text-xl font-semibold text-black mb-6">Performance Metrics</h3>
+    <div className="space-y-4">
+      {metricsData.map((metric, index) => (
+        <div key={index} className="flex justify-between items-center py-2">
+          <span className="text-sm font-medium text-gray-700">{metric.label}</span>
+          <span className={`text-sm font-semibold ${
+            metric.type === "positive"
+              ? "text-teal-600"
+              : metric.type === "warning"
+              ? "text-orange-600 bg-orange-100 px-2 py-1 rounded-full"
+              : "text-gray-800"
+          }`}>
+            {metric.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* --------------------- Portfolio Holdings --------------------- */
+const holdingsData = [
+  {
+    name: "TechNova Startup", type: "Equity", invested: "$75,000", currentValue: "$90,000",
+    change: "+20.0%", changeType: "positive", status: "Active"
+  },
+  {
+    name: "teal Energy Fund", type: "Fund", invested: "$50,000", currentValue: "$52,500",
+    change: "+5.0%", changeType: "positive", status: "Active"
+  },
+  {
+    name: "Real Estate REIT", type: "REIT", invested: "$75,000", currentValue: "$75,000",
+    change: "0.0%", changeType: "neutral", status: "Active"
+  },
+  {
+    name: "Tech ETF Portfolio", type: "ETF", invested: "$50,000", currentValue: "$53,250",
+    change: "+6.5%", changeType: "positive", status: "Active"
+  },
+];
+
+const PortfolioHoldings = () => (
+  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <h3 className="text-xl font-semibold text-black mb-6">Portfolio Holdings</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {holdingsData.map((holding, index) => (
+        <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:shadow-md transition-all hover:bg-gray-100">
+          <div className="space-y-3">
+            <div>
+              <h4 className="font-semibold text-black text-sm">{holding.name}</h4>
+              <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded-full">{holding.type}</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between"><span className="text-xs text-gray-600">Invested:</span><span className="text-xs font-medium">{holding.invested}</span></div>
+              <div className="flex justify-between"><span className="text-xs text-gray-600">Current:</span><span className="text-xs font-medium">{holding.currentValue}</span></div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-gray-600">Change:</span>
+                <div className={`flex items-center gap-1 text-xs font-medium ${
+                  holding.changeType === "positive"
+                    ? "text-teal-600"
+                    : holding.changeType === "negative"
+                    ? "text-red-600"
+                    : "text-gray-600"
+                }`}>
+                  {holding.changeType === "positive" && <ArrowUp size={12} />}
+                  {holding.changeType === "negative" && <ArrowDown size={12} />}
+                  {holding.change}
+                </div>
+              </div>
+            </div>
+            <div className="pt-2">
+              <span className="text-xs bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{holding.status}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* --------------------- Main Dashboard --------------------- */
+const Dashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  return (
+    <div className="min-h-screen bg-white flex w-full">
+      <DashboardSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-72' : 'ml-20'} bg-white`}>
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-black mb-2">Investor Dashboard</h1>
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800">Portfolio</h2>
+                <p className="text-gray-600">Manage and track your investment portfolio</p>
+              </div>
+            </div>
+            <button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+              <Plus size={20} />
+              Add Investment
+            </button>
+          </div>
+
+          <StatsCards />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <div className="lg:col-span-2"><AssetAllocation /></div>
+            <div className="lg:col-span-1"><PerformanceMetrics /></div>
+          </div>
+
+          <div className="mt-8"><PortfolioHoldings /></div>
+        </div>
+      </main>
     </div>
   );
-}
+};
 
 export default Dashboard;
