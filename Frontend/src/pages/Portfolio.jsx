@@ -6,11 +6,11 @@ import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
 
 const navigationItems = [
     { icon: FaHome, label: "Home", href: "/" },
-    { icon: FaUserCircle, label: "Profile", href: "/profile" },
+    { icon: FaUserCircle, label: "Profile", href: "/dashboard/profile" },
     { icon: FaWallet, label: "Dashboard", href: "/dashboard" },
-    { icon: FaStar, label: "Saved Startups", href: "/saved-startups" },
-    { icon: FaList, label: "Approach List", href: "/approach-list" },
-    { icon: FaCog, label: "Settings", href: "/settings" },
+    { icon: FaStar, label: "Saved Startups", href: "/dashboard/saved-startups" },
+    { icon: FaList, label: "Approach List", href: "/dashboard/approach-list" },
+    { icon: FaCog, label: "Settings", href: "/dashboard/settings" },
 ];
 
 const DashboardSidebar = ({ isOpen, onToggle }) => (
