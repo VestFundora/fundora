@@ -99,16 +99,7 @@ function Portfolio() {
                 {/* Header */}
                 <header className="bg-white shadow-sm z-10">
                     <div className="flex items-center gap-4 p-4">
-                        <button
-                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                            className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                        >
-                            {isSidebarOpen
-                                ? <MdChevronLeft size={24} className="text-gray-700" />
-                                : <MdDashboard size={24} className="text-gray-700" />
-                            }
-                        </button>
-                        <h2 className="ml-2 font-bold text-xl text-teal-900">Fundora</h2>
+                        <h1 className="ml-2 font-bold text-3xl text-black">Investor Portfolio</h1>
                         <div className="flex-1">
                             <div className="flex items-center bg-gray-100 rounded-lg px-4 py-2 w-full">
                                 <FaSearch className="text-gray-400 min-w-[20px]" />
