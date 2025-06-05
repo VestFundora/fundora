@@ -29,13 +29,13 @@ function Portfolio() {
     ];
 
     const navItems = [
-        { icon: FaHome, label: "Home" },
-        { icon: FaUserCircle, label: "Profile" },
-        { icon: FaWallet, label: "Portfolio" },
-        { icon: FaStar, label: "Saved Startups" },
-        { icon: FaList, label: "Approach List" },
-        { icon: FaCog, label: "Settings" },
-        { icon: FaCrown, label: "Upgrade Plan", className: "mt-auto text-yellow-400" }
+        { icon: FaHome, label: "Home", path: "/" },
+        { icon: FaUserCircle, label: "Profile", path: "/profile" },
+        { icon: FaWallet, label: "Dashboard", path: "/dashboard" },
+        { icon: FaStar, label: "Saved Startups", path: "/saved-startups" },
+        { icon: FaList, label: "Approach List", path: "/approach-list" },
+        { icon: FaCog, label: "Settings", path: "/settings" },
+        { icon: FaCrown, label: "Upgrade Plan", path: "#", className: "mt-auto text-yellow-400" }
     ];
 
     const investmentData = [
@@ -96,26 +96,26 @@ function Portfolio() {
                 <nav className="flex-1 flex flex-col justify-between py-6">
                     <div className="space-y-2">
                         {navItems.slice(0, -1).map((item, index) => (
-                            <a
+                            <Link
                                 key={index}
-                                onClick={() => item.label === "Home" && navigate("/")}
-                                className={`flex items-center px-4 py-3 text-gray-300 hover:bg-teal-900 hover:text-white transition-colors cursor-pointer`}
+                                to={item.path}
+                                className="flex items-center px-4 py-3 text-gray-300 hover:bg-teal-900 hover:text-white transition-colors cursor-pointer"
                             >
                                 <item.icon size={20} />
                                 {isSidebarOpen && <span className="ml-4">{item.label}</span>}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                     
                     {/* Upgrade Plan - Separated */}
                     <div className="mt-auto pt-6 border-t border-teal-900">
-                        <a
-                            href="#"
+                        <Link
+                            to={navItems[navItems.length - 1].path}
                             className="flex items-center px-4 py-3 text-yellow-400 hover:bg-teal-900 transition-colors cursor-pointer"
                         >
                             <FaCrown size={20} />
                             {isSidebarOpen && <span className="ml-4">Upgrade Plan</span>}
-                        </a>
+                        </Link>
                     </div>
                 </nav>
             </div>
