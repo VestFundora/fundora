@@ -122,7 +122,7 @@ const allocationData = [
 const AssetAllocation = () => (
   <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
     <h3 className="text-xl font-semibold text-black mb-2">Asset Allocation</h3>
-    <p className="text-gray-600 mb-6">Distribution of your investment portfolio</p>
+    <p className="text-gray-600 mb-6">Distribution of your investment</p>
     <div className="space-y-6">
       {allocationData.map((item, index) => (
         <div key={index} className="space-y-2">
@@ -179,7 +179,7 @@ const holdingsData = [
     change: "+20.0%", changeType: "positive", status: "Active"
   },
   {
-    name: "teal Energy Fund", type: "Fund", invested: "$50,000", currentValue: "$52,500",
+    name: "Green Energy Fund", type: "Fund", invested: "$50,000", currentValue: "$52,500",
     change: "+5.0%", changeType: "positive", status: "Active"
   },
   {
@@ -187,7 +187,7 @@ const holdingsData = [
     change: "0.0%", changeType: "neutral", status: "Active"
   },
   {
-    name: "Tech ETF Portfolio", type: "ETF", invested: "$50,000", currentValue: "$53,250",
+    name: "Tech ETF ", type: "ETF", invested: "$50,000", currentValue: "$53,250",
     change: "+6.5%", changeType: "positive", status: "Active"
   },
 ];
@@ -243,8 +243,8 @@ const Dashboard = () => {
             <div>
               <h1 className="text-3xl font-bold text-black mb-2">Investor Dashboard</h1>
               <div>
-                <h2 className="text-xl font-semibold text-gray-800">Portfolio</h2>
-                <p className="text-gray-600">Manage and track your investment portfolio</p>
+                
+                <p className="text-gray-600">Manage and track your investment </p>
               </div>
             </div>
             <button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
