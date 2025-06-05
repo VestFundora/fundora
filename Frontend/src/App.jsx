@@ -10,6 +10,8 @@ import StartupDetails from './pages/StartupDetails';
 import SavedStartups from './pages/SavedStartups';
 import ApproachList from './pages/ApproachList';
 import Profile from './pages/Profile';
+import AboutUs from './pages/AboutUs';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route path="/dashboard/portfolio" element={<Portfolio />} />
           <Route path="/marketplace" element={<StartupMarketplace />} />
           <Route path="/marketplace/:cin" element={<StartupDetails />} />
+          <Route path="/about" element={<AboutUs />} />
         </Routes>
       </SmoothScroll>
     </Router>

@@ -16,6 +16,7 @@
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.0.15",
     "axios": "^1.9.0",
+    "framer-motion": "^12.15.0",
     "gsap": "^3.12.7",
     "lenis": "^1.2.3",
     "lucide-react": "^0.487.0",
