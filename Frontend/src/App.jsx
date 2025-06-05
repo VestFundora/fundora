@@ -4,7 +4,7 @@ import Dashboard from './pages/Dashboard';
 import SignUpStartup from './pages/SignUpStartup';
 import SignUpInvestor from './pages/SignUpInvestor';
 import Portfolio from './pages/Portfolio';
-import StartupMarketplace from './pages/StartupMarketPlace';
+import StartupMarketplace from './pages/StartupMarketplace';
 import SmoothScroll from './components/LenisScroll';
 import StartupDetails from './pages/StartupDetails';
 import SavedStartups from './pages/SavedStartups';
