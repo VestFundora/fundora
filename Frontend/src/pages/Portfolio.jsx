@@ -1,21 +1,62 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaHome, FaCog, FaBell, FaSearch, FaWallet, FaStar, FaUserCircle, FaList, FaCrown } from 'react-icons/fa';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const navigationItems = [
+    { icon: FaHome, label: "Home", href: "/" },
+    { icon: FaUserCircle, label: "Profile", href: "/profile" },
+    { icon: FaWallet, label: "Dashboard", href: "/dashboard" },
+    { icon: FaStar, label: "Saved Startups", href: "/saved-startups" },
+    { icon: FaList, label: "Approach List", href: "/approach-list" },
+    { icon: FaCog, label: "Settings", href: "/settings" },
+];
+
+const DashboardSidebar = ({ isOpen, onToggle }) => (
+    <div className={`fixed left-0 top-0 h-full bg-teal-900 shadow-lg transition-all duration-300 z-10 ${isOpen ? 'w-72' : 'w-20'}`}>
+        <div className="p-4 border-b border-teal-700 flex items-center justify-between">
+            {isOpen && <h1 className="text-xl font-bold text-white">Fundora</h1>}
+            <button onClick={onToggle} className="p-1 hover:bg-teal-700 rounded-lg transition-colors">
+                {isOpen ? <MdChevronLeft size={20} className="text-white" /> : <MdChevronRight size={20} className="text-white" />}
+            </button>
+        </div>
+        <nav className="py-4">
+            <ul className="space-y-2">
+                {navigationItems.map((item, index) => (
+                    <li key={index}>
+                        <Link
+                            to={item.href}
+                            className="flex items-center px-5 py-4 mx-3 rounded-lg transition-colors text-white hover:bg-teal-700"
+                        >
+                            <item.icon size={24} className="flex-shrink-0 text-white" />
+                            {isOpen && <span className="ml-4 text-base font-medium">{item.label}</span>}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+            <div className="mt-6 border-t border-teal-800 pt-4 px-5">
+                <Link
+                    to="/upgrade"
+                    className="flex items-center text-yellow-400 hover:text-yellow-300"
+                >
+                    <FaCrown size={20} />
+                    {isOpen && <span className="ml-4 text-base font-medium">Upgrade Plan</span>}
+                </Link>
+            </div>
+        </nav>
+    </div>
+);
 
 function Portfolio() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
-    const navigate = useNavigate();
 
     // Handle responsive sidebar
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
             setIsSidebarOpen(window.innerWidth >= 768);
         };
-        
+
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -26,16 +67,6 @@ function Portfolio() {
         { title: "Active Startups", value: "45", icon: FaUserCircle, change: "+5%" },
         { title: "Portfolio Value", value: "$3.2M", icon: FaStar, change: "+23%" },
         { title: "Success Rate", value: "89%", icon: FaList, change: "+7%" }
-    ];
-
-    const navItems = [
-        { icon: FaHome, label: "Home", path: "/" },
-        { icon: FaUserCircle, label: "Profile", path: "/profile" },
-        { icon: FaWallet, label: "Dashboard", path: "/dashboard" },
-        { icon: FaStar, label: "Saved Startups", path: "/saved-startups" },
-        { icon: FaList, label: "Approach List", path: "/approach-list" },
-        { icon: FaCog, label: "Settings", path: "/settings" },
-        { icon: FaCrown, label: "Upgrade Plan", path: "#", className: "mt-auto text-yellow-400" }
     ];
 
     const investmentData = [
@@ -59,81 +90,26 @@ function Portfolio() {
     ];
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 ">
-            {/* Overlay for mobile sidebar */}
-            {isMobile && isSidebarOpen && (
-                <div 
-                    className="fixed inset-0 bg-black/50 z-20 cursor-pointer"
-                    onClick={() => setIsSidebarOpen(false)}
-                />
-            )}
-
-            {/* Sidebar - Modified */}
-            <div className={`
-                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} 
-                ${isMobile ? 'fixed' : 'sticky top-0'} 
-                ${isMobile ? 'z-30' : 'z-10'}
-                ${isSidebarOpen ? 'w-64' : 'w-20 md:w-20'} 
-                bg-teal-950 text-white transition-all duration-300 flex flex-col
-                min-h-screen h-full
-            `}>
-                <div className="p-4 flex items-center justify-between border-b border-teal-900">
-                    {isSidebarOpen &&  (
-                        <Link to="/">
-                            <h2 className="text-xl font-bold cursor-pointer hover:text-teal-400 transition-colors">
-                                Fundora
-                            </h2>
-                        </Link>
-                    )}
-                    <button 
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 hover:bg-teal-900 rounded-lg transition-colors cursor-pointer"
-                    >
-                        <MdDashboard size={24} />
-                    </button>
-                </div>
-
-                <nav className="flex-1 flex flex-col justify-between py-6">
-                    <div className="space-y-2">
-                        {navItems.slice(0, -1).map((item, index) => (
-                            <Link
-                                key={index}
-                                to={item.path}
-                                className="flex items-center px-4 py-3 text-gray-300 hover:bg-teal-900 hover:text-white transition-colors cursor-pointer"
-                            >
-                                <item.icon size={20} />
-                                {isSidebarOpen && <span className="ml-4">{item.label}</span>}
-                            </Link>
-                        ))}
-                    </div>
-                    
-                    {/* Upgrade Plan - Separated */}
-                    <div className="mt-auto pt-6 border-t border-teal-900">
-                        <Link
-                            to={navItems[navItems.length - 1].path}
-                            className="flex items-center px-4 py-3 text-yellow-400 hover:bg-teal-900 transition-colors cursor-pointer"
-                        >
-                            <FaCrown size={20} />
-                            {isSidebarOpen && <span className="ml-4">Upgrade Plan</span>}
-                        </Link>
-                    </div>
-                </nav>
-            </div>
+        <div className="flex min-h-screen bg-gray-100">
+            {/* Sidebar */}
+            <DashboardSidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col min-w-0">
+            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isSidebarOpen ? 'ml-72' : 'ml-20'}`}>
                 {/* Header */}
                 <header className="bg-white shadow-sm z-10">
-                    <div className="flex flex-col sm:flex-row items-center justify-between p-4 gap-4">
-                        {isMobile && (
-                            <button 
-                                onClick={() => setIsSidebarOpen(true)}
-                                className="self-start p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                            >
-                                <MdDashboard size={24} />
-                            </button>
-                        )}
-                        <div className="flex-1 w-full sm:w-auto">
+                    <div className="flex items-center gap-4 p-4">
+                        <button
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                            className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                        >
+                            {isSidebarOpen
+                                ? <MdChevronLeft size={24} className="text-gray-700" />
+                                : <MdDashboard size={24} className="text-gray-700" />
+                            }
+                        </button>
+                        <h2 className="ml-2 font-bold text-xl text-teal-900">Fundora</h2>
+                        <div className="flex-1">
                             <div className="flex items-center bg-gray-100 rounded-lg px-4 py-2 w-full">
                                 <FaSearch className="text-gray-400 min-w-[20px]" />
                                 <input
@@ -179,26 +155,26 @@ function Portfolio() {
                                     <AreaChart data={investmentData}>
                                         <defs>
                                             <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#115e59" stopOpacity={0.8}/>
-                                                <stop offset="95%" stopColor="#115e59" stopOpacity={0}/>
+                                                <stop offset="5%" stopColor="#115e59" stopOpacity={0.8} />
+                                                <stop offset="95%" stopColor="#115e59" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="name" />
                                         <YAxis />
                                         <Tooltip />
-                                        <Area 
-                                            type="monotone" 
-                                            dataKey="amount" 
-                                            stroke="#115e59" 
-                                            fillOpacity={1} 
-                                            fill="url(#colorAmount)" 
+                                        <Area
+                                            type="monotone"
+                                            dataKey="amount"
+                                            stroke="#115e59"
+                                            fillOpacity={1}
+                                            fill="url(#colorAmount)"
                                         />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
-                        
+
                         <div className="bg-white p-4 md:p-6 rounded-xl shadow-sm">
                             <h3 className="text-lg font-semibold mb-4">Portfolio Performance</h3>
                             <div className="h-[300px] md:h-[400px]">
@@ -208,10 +184,10 @@ function Portfolio() {
                                         <XAxis dataKey="name" />
                                         <YAxis />
                                         <Tooltip />
-                                        <Line 
-                                            type="monotone" 
-                                            dataKey="value" 
-                                            stroke="#115e59" 
+                                        <Line
+                                            type="monotone"
+                                            dataKey="value"
+                                            stroke="#115e59"
                                             strokeWidth={2}
                                             dot={{ r: 4 }}
                                             activeDot={{ r: 6 }}
