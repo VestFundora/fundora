@@ -17,19 +17,13 @@ function Hero() {
                         Seamless solutions for investment, savings, and financial growth. Take control of your wealth journey today.
                     </p>
                     <div className="flex flex-col md:flex-row gap-4 justify-center w-full max-w-md md:max-w-none">
-                        <button className="px-8 py-3 bg-gradient-to-r from-teal-950 to-teal-900 text-white font-medium rounded-md hover:from-teal-900 hover:to-teal-800 transition-all duration-300 shadow-lg  transform hover:scale-105 cursor-pointer">
-                            <Link to="/signup/startup">
-                                Join as a Startup
-                            </Link>
-                        </button>
-                        <button className="px-8 py-3 bg-transparent border-2 border-white text-white font-medium rounded-md hover:bg-white hover:text-teal-950 transition-all duration-300 shadow-lg  hover:shadow-white/20 transform hover:scale-105 cursor-pointer">
+                        <Link to="/signup/startup">
+                            <button className="px-8 py-3 bg-gradient-to-r from-teal-950 to-teal-900 text-white font-medium rounded-md hover:from-teal-900 hover:to-teal-800 transition-all duration-300 shadow-lg  transform hover:scale-105 cursor-pointer">Join as a Startup</button>
+                        </Link>
                         <Link to="/signup/investor">
-                            Join as an Investor
-                            </Link>
-                        </button>
+                        <button className="px-8 py-3 bg-transparent border-2 border-white text-white font-medium rounded-md hover:bg-white hover:text-teal-950 transition-all duration-300 shadow-lg  hover:shadow-white/20 transform hover:scale-105 cursor-pointer">Join as an Investor</button>
+                        </Link>
                     </div>
-
-            
                 </div>
             </div>
         </>
